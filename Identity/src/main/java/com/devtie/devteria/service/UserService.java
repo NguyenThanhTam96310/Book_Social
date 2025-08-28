@@ -18,9 +18,11 @@ import com.devtie.devteria.entity.Role;
 import com.devtie.devteria.entity.User;
 import com.devtie.devteria.exception.AppException;
 import com.devtie.devteria.exception.ErrorCode;
+import com.devtie.devteria.mapper.ProfileMapper;
 import com.devtie.devteria.mapper.UserMapper;
 import com.devtie.devteria.repository.RoleRepository;
 import com.devtie.devteria.repository.UserRepository;
+import com.devtie.devteria.repository.httpclient.ProfileClient;
 
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -36,6 +38,8 @@ public class UserService {
     UserMapper userMapper;
     RoleRepository roleRepository;
     PasswordEncoder encoder;
+    ProfileClient profileClient;
+    ProfileMapper profileMapper;
 
     public UserResponse createUser(UserCreationRequest request) {
         // if (userRepository.existsByUserName(request.getUserName())) {
@@ -55,6 +59,9 @@ public class UserService {
 
         try {
             user = userRepository.save(user);
+            var profileRequest = profileMapper.toProfileCreationRequest(request);
+            profileRequest.setUserId(user.getId());
+            profileClient.createProfile(profileRequest);
         } catch (DataIntegrityViolationException e) {
             throw new AppException(ErrorCode.USERNAME_ALREADY_EXISTS);
         }

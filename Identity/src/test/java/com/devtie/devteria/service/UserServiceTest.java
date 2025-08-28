@@ -57,16 +57,16 @@ public class UserServiceTest {
         userResponse = UserResponse.builder()
                 .id("de2b8428-15fe-49cd-82c3")
                 .userName("john123")
-                .firstName("John")
-                .lastName("Doe")
-                .dob(dob)
+                // .firstName("John")
+                // .lastName("Doe")
+                // .dob(dob)
                 .build();
         user = User.builder()
                 .userName("john123")
                 .id("de2b8428-15fe-49cd-82c3")
-                .firstName("John")
-                .lastName("Doe")
-                .dob(dob)
+                // .firstName("John")
+                // .lastName("Doe")
+                // .dob(dob)
                 .build();
     }
 
@@ -82,7 +82,7 @@ public class UserServiceTest {
         // Then
         Assertions.assertThat(response.getId()).isEqualTo("de2b8428-15fe-49cd-82c3");
         Assertions.assertThat(response.getUserName()).isEqualTo("john123");
-        Assertions.assertThat(response.getFirstName()).isEqualTo("John");
+        // Assertions.assertThat(response.getFirstName()).isEqualTo("John");
     }
 
     @Test

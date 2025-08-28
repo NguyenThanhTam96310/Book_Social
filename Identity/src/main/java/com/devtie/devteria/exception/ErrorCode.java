@@ -25,6 +25,7 @@ public enum ErrorCode {
     INVALID_REQUEST_PASSWORD(2004, "Password must be at least {min} characters long", HttpStatus.BAD_REQUEST),
     INVALID_REQUEST_FIRSTNAME(2005, "First name must be at least {min} characters long", HttpStatus.BAD_REQUEST),
     INVALID_REQUEST_LASTNAME(2006, "Last name must be at least {min} characters long", HttpStatus.BAD_REQUEST),
+    INVALID_REQUEST_CITY(2007, "ity must be at least {min} characters long", HttpStatus.BAD_REQUEST),
 
     // General errors
     UNKNOWN_ERROR(9999, "An unknown error occurred", HttpStatus.INTERNAL_SERVER_ERROR);

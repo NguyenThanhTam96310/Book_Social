@@ -1,4 +1,4 @@
-package com.book_micro.profile_service.dto.request;
+package com.devtie.devteria.dto.request;
 
 import java.time.LocalDate;
 
@@ -14,8 +14,7 @@ import lombok.experimental.FieldDefaults;
 @AllArgsConstructor
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class UserProfileCreationRequest {
-
+public class ProfileCreationRequest {
     String userId;
     // @Size(min = 2, message = "INVALID_REQUEST_FIRSTNAME")
     String firstName;
@@ -23,6 +22,7 @@ public class UserProfileCreationRequest {
     // @Size(min = 2, message = "INVALID_REQUEST_LASTNAME")
     String lastName;
 
+    // @DobConstraint(min = 16, message = "INVALID_DOB")
     LocalDate dob;
 
     String city;

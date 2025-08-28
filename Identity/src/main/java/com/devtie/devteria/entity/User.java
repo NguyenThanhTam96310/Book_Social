@@ -1,6 +1,5 @@
 package com.devtie.devteria.entity;
 
-import java.time.LocalDate;
 import java.util.Set;
 
 import jakarta.persistence.Column;
@@ -34,9 +33,6 @@ public class User {
     String userName;
 
     String passWord;
-    String firstName;
-    String lastName;
-    LocalDate dob;
 
     @ManyToMany
     Set<Role> roles;

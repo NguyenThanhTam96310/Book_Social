@@ -1,4 +1,4 @@
-package com.book_micro.profile_service.dto.request;
+package com.devtie.devteria.dto.response;
 
 import java.time.LocalDate;
 
@@ -14,9 +14,9 @@ import lombok.experimental.FieldDefaults;
 @AllArgsConstructor
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class UserProfileCreationRequest {
+public class UserProfileResponse {
 
-    String userId;
+    String id;
     // @Size(min = 2, message = "INVALID_REQUEST_FIRSTNAME")
     String firstName;
 
