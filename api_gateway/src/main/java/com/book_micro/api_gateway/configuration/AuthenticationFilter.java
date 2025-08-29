@@ -3,8 +3,13 @@ package com.book_micro.api_gateway.configuration;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.http.server.reactive.ServerHttpResponse;
+
+import java.util.Arrays;
 import java.util.List;
+
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
 import org.springframework.core.Ordered;
@@ -19,6 +24,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import lombok.experimental.NonFinal;
 import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Mono;
 
@@ -30,10 +36,23 @@ public class AuthenticationFilter implements GlobalFilter, Ordered {
     IdentityService identityService;
     ObjectMapper objectMapper;
 
+    @NonFinal
+    private String[] PUPLIC_ENDPOINT = {
+            "/identity/auth/.*",
+            "/identity/users/registration"
+    };
+
+    @Value("${app.api-prefix}")
+    @NonFinal
+    private String API_PREFIX;
+
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
         log.info("AuthenticationFilter filter is called...");
         // get token authorization header
+        if (isPublicEndpoint(exchange.getRequest())) {
+            return chain.filter(exchange);
+        }
 
         List<String> authHeader = exchange.getRequest().getHeaders().get(HttpHeaders.AUTHORIZATION);
         if (CollectionUtils.isEmpty(authHeader)) {
@@ -56,6 +75,11 @@ public class AuthenticationFilter implements GlobalFilter, Ordered {
     @Override
     public int getOrder() {
         return -1;
+    }
+
+    private boolean isPublicEndpoint(ServerHttpRequest request) {
+        return Arrays.stream(PUPLIC_ENDPOINT)
+                .anyMatch(s -> request.getURI().getPath().matches(API_PREFIX + s));
     }
 
     Mono<Void> unauthenticated(ServerHttpResponse response) {

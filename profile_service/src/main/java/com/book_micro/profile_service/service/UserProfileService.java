@@ -2,6 +2,7 @@ package com.book_micro.profile_service.service;
 
 import java.util.List;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import com.book_micro.profile_service.dto.request.UserProfileCreationRequest;
@@ -36,6 +37,7 @@ public class UserProfileService {
         return userProfileMapper.toUserProfileResponse(userProfile);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     public List<UserProfileResponse> getAllProfiles() {
         return userProfileRepository.findAll().stream()
                 .map(userProfileMapper::toUserProfileResponse)
