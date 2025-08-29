@@ -1,5 +1,7 @@
 package com.book_micro.profile_service.service;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 import com.book_micro.profile_service.dto.request.UserProfileCreationRequest;
@@ -32,5 +34,11 @@ public class UserProfileService {
         UserProfile userProfile =
                 userProfileRepository.findById(id).orElseThrow(() -> new RuntimeException("PROFILE_NOT_FOUND"));
         return userProfileMapper.toUserProfileResponse(userProfile);
+    }
+
+    public List<UserProfileResponse> getAllProfiles() {
+        return userProfileRepository.findAll().stream()
+                .map(userProfileMapper::toUserProfileResponse)
+                .toList();
     }
 }

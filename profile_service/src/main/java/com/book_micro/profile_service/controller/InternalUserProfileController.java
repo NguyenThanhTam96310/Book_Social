@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.book_micro.profile_service.dto.request.UserProfileCreationRequest;
+import com.book_micro.profile_service.dto.response.ApiResponse;
 import com.book_micro.profile_service.dto.response.UserProfileResponse;
 import com.book_micro.profile_service.service.UserProfileService;
 
@@ -19,7 +20,9 @@ public class InternalUserProfileController {
     UserProfileService userProfileService;
 
     @PostMapping("/internal/users")
-    UserProfileResponse createProfile(@RequestBody UserProfileCreationRequest request) {
-        return userProfileService.createProfile(request);
+    ApiResponse<UserProfileResponse> createProfile(@RequestBody UserProfileCreationRequest request) {
+        return ApiResponse.<UserProfileResponse>builder()
+                .result(userProfileService.createProfile(request))
+                .build();
     }
 }
