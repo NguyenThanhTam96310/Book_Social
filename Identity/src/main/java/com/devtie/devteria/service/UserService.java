@@ -42,15 +42,8 @@ public class UserService {
     ProfileMapper profileMapper;
 
     public UserResponse createUser(UserCreationRequest request) {
-        // if (userRepository.existsByUserName(request.getUserName())) {
-        // throw new AppException(ErrorCode.USERNAME_ALREADY_EXISTS);
-        // }
+
         User user = userMapper.toUser(request); // thay cho tất cả các trường hợp set trực tiếp thay cho phần ở dưới
-        // user.setUserName(request.getUserName());
-        // user.setPassWord(request.getPassWord());
-        // user.setFirstName(request.getFirstName());
-        // user.setLastName(request.getLastName());
-        // user.setDob(request.getDob());
 
         user.setPassWord(encoder.encode(user.getPassWord())); // mã hóa mật khẩu trước khi lưu vào cơ sở dữ liệu
         HashSet<Role> roles = new HashSet<>();
@@ -61,6 +54,7 @@ public class UserService {
             user = userRepository.save(user);
             var profileRequest = profileMapper.toProfileCreationRequest(request);
             profileRequest.setUserId(user.getId());
+
             profileClient.createProfile(profileRequest);
         } catch (DataIntegrityViolationException e) {
             throw new AppException(ErrorCode.USERNAME_ALREADY_EXISTS);
@@ -68,9 +62,7 @@ public class UserService {
         return userMapper.toUserResponse(user); // sử dụng mapper để chuyển đổi sang UserResponse
     }
 
-    @PreAuthorize("hasRole('ADMIN')") // chỉ ADMIN mới có quyền truy cập
-    // @PreAuthorize("hasAuthority('APPROVE_POST')") //Có quyền APPROVE_POST mới get
-    // đc
+    @PreAuthorize("hasRole('ADMIN')")
     public List<UserResponse> getUsers() {
         log.info("In method getUsers");
         return userRepository.findAll().stream()
@@ -95,11 +87,8 @@ public class UserService {
 
     public UserResponse updateUser(String userId, UserUpdateRequest request) {
         User user = userRepository.findById(userId).orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
-        userMapper.updateUser(user, request); // sử dụng mapper để cập nhật các trường thay vì set trực tiếp
-        // user.setPassWord(request.getPassWord());
-        // user.setFirstName(request.getFirstName());
-        // user.setLastName(request.getLastName());
-        // user.setDob(request.getDob());
+        userMapper.updateUser(user, request);
+
         user.setPassWord(encoder.encode(request.getPassWord()));
 
         var roles = roleRepository.findAllById(request.getRoles());

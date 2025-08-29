@@ -18,7 +18,7 @@ import org.springframework.web.filter.CorsFilter;
 @EnableWebSecurity
 @EnableMethodSecurity
 public class SecurityConfig {
-    private final String[] PUBLIC_ENDPOINTS = {"/users/registration"};
+    private final String[] PROFILE_PUBLIC_ENDPOINTS = {"/internal/users"};
 
     private final CustomJwtDecoder customJwtDecoder;
 
@@ -29,7 +29,7 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.cors().and().authorizeHttpRequests(request -> request.requestMatchers(
-                        HttpMethod.POST, PUBLIC_ENDPOINTS)
+                        HttpMethod.POST, PROFILE_PUBLIC_ENDPOINTS)
                 .permitAll()
                 .anyRequest()
                 .authenticated());
