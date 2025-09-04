@@ -67,11 +67,11 @@ public class AuthencationService {
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
         log.info("Authenticating user: {}", SECRET_KEY);
         var user = userRepository
-                .findByUserName(request.getUserName())
+                .findByUsername(request.getUsername())
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
 
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
-        boolean authenticated = passwordEncoder.matches(request.getPassWord(), user.getPassWord());
+        boolean authenticated = passwordEncoder.matches(request.getPassword(), user.getPassword());
         if (!authenticated) {
             throw new AppException(ErrorCode.INVALID_CREDENTIALS);
         }
@@ -85,7 +85,7 @@ public class AuthencationService {
 
         // payload chứa các thông tin về người dùng và thời gian hết hạn của token
         JWTClaimsSet claimsSet = new JWTClaimsSet.Builder()
-                .subject(user.getUserName()) // Chủ thể của token, thường là tên người dùng hoặc ID người dùng
+                .subject(user.getUsername()) // Chủ thể của token, thường là tên người dùng hoặc ID người dùng
                 .issuer("devteria")
                 .issueTime(new Date()) // Thời gian phát hành token
                 .expirationTime(new Date(
@@ -184,7 +184,7 @@ public class AuthencationService {
         // get User
         var username = signJWT.getJWTClaimsSet().getSubject();
         var user =
-                userRepository.findByUserName(username).orElseThrow(() -> new AppException(ErrorCode.UNAUTHENTICATED));
+                userRepository.findByUsername(username).orElseThrow(() -> new AppException(ErrorCode.UNAUTHENTICATED));
 
         // Cấp lại token mới
         var token = generateToken(user);

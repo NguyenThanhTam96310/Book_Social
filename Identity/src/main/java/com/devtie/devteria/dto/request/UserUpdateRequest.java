@@ -21,7 +21,7 @@ import lombok.experimental.FieldDefaults;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class UserUpdateRequest {
     @Size(min = 8, message = "INVALID_REQUEST_PASSWORD")
-    String passWord;
+    String password;
 
     @Size(min = 2, message = "INVALID_REQUEST_FIRSTNAME")
     String firstName;

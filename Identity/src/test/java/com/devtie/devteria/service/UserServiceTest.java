@@ -47,22 +47,22 @@ public class UserServiceTest {
     void initData() {
         dob = LocalDate.of(1990, 1, 1);
         request = UserCreationRequest.builder()
-                .userName("john123")
+                .username("john123")
                 .firstName("John")
                 .lastName("Doe")
-                .passWord("12345678")
+                .password("12345678")
                 .dob(dob)
                 .build();
 
         userResponse = UserResponse.builder()
                 .id("de2b8428-15fe-49cd-82c3")
-                .userName("john123")
+                .username("john123")
                 // .firstName("John")
                 // .lastName("Doe")
                 // .dob(dob)
                 .build();
         user = User.builder()
-                .userName("john123")
+                .username("john123")
                 .id("de2b8428-15fe-49cd-82c3")
                 // .firstName("John")
                 // .lastName("Doe")
@@ -73,7 +73,7 @@ public class UserServiceTest {
     @Test
     void createUser_validRequest_success() {
         // Given
-        Mockito.when(userRepository.existsByUserName(anyString())).thenReturn(false);
+        Mockito.when(userRepository.existsByUsername(anyString())).thenReturn(false);
         Mockito.when(userRepository.save(any())).thenReturn(user);
 
         // When
@@ -81,14 +81,14 @@ public class UserServiceTest {
 
         // Then
         Assertions.assertThat(response.getId()).isEqualTo("de2b8428-15fe-49cd-82c3");
-        Assertions.assertThat(response.getUserName()).isEqualTo("john123");
+        Assertions.assertThat(response.getUsername()).isEqualTo("john123");
         // Assertions.assertThat(response.getFirstName()).isEqualTo("John");
     }
 
     @Test
     void createUser_userExitsted_fail() {
         // Given
-        Mockito.when(userRepository.existsByUserName(anyString())).thenReturn(true);
+        Mockito.when(userRepository.existsByUsername(anyString())).thenReturn(true);
 
         // When
         var exception = assertThrows(AppException.class, () -> userService.createUser(request));
@@ -99,11 +99,11 @@ public class UserServiceTest {
     @WithMockUser(username = "john123") // có thể hash role vào
     void getMyInfo_vailid_succuss() {
         // mock repository qua
-        Mockito.when(userRepository.findByUserName(anyString())).thenReturn(Optional.of(user));
+        Mockito.when(userRepository.findByUsername(anyString())).thenReturn(Optional.of(user));
 
         // when
         var res = userService.getMyInfo();
-        Assertions.assertThat(res.getUserName()).isEqualTo("john123");
+        Assertions.assertThat(res.getUsername()).isEqualTo("john123");
         Assertions.assertThat(res.getId()).isEqualTo("de2b8428-15fe-49cd-82c3");
     }
 
@@ -111,7 +111,7 @@ public class UserServiceTest {
     @WithMockUser(username = "john123") // có thể hash role vào
     void getMyInfo_userNotFound_error() {
         // mock repository qua
-        Mockito.when(userRepository.findByUserName(anyString())).thenReturn(Optional.ofNullable(null));
+        Mockito.when(userRepository.findByUsername(anyString())).thenReturn(Optional.ofNullable(null));
 
         // when
         var exception = assertThrows(AppException.class, () -> userService.getMyInfo());

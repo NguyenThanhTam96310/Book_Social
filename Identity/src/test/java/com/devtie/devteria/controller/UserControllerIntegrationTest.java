@@ -58,16 +58,16 @@ public class UserControllerIntegrationTest {
     void initData() {
         dob = LocalDate.of(1990, 1, 1);
         request = UserCreationRequest.builder()
-                .userName("john123")
+                .username("john123")
                 .firstName("John")
                 .lastName("Doe")
-                .passWord("12345678")
+                .password("12345678")
                 .dob(dob)
                 .build();
 
         userResponse = UserResponse.builder()
                 .id("de2b8428-15fe-49cd-82c3")
-                .userName("john123")
+                .username("john123")
                 .firstName("John")
                 .lastName("Doe")
                 .dob(dob)

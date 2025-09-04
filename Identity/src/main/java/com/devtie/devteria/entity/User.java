@@ -30,9 +30,9 @@ public class User {
     String id;
 
     @Column(name = "username", unique = true, columnDefinition = "VARCHAR(255) COLLATE utf8mb4_unicode_ci")
-    String userName;
+    String username;
 
-    String passWord;
+    String password;
 
     @ManyToMany
     Set<Role> roles;

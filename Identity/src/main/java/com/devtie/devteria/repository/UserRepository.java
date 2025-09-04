@@ -9,7 +9,7 @@ import com.devtie.devteria.entity.User;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, String> {
-    boolean existsByUserName(String userName);
+    boolean existsByUsername(String username);
 
-    Optional<User> findByUserName(String userName);
+    Optional<User> findByUsername(String username);
 }

@@ -45,7 +45,7 @@ public class UserService {
 
         User user = userMapper.toUser(request); // thay cho tất cả các trường hợp set trực tiếp thay cho phần ở dưới
 
-        user.setPassWord(encoder.encode(user.getPassWord())); // mã hóa mật khẩu trước khi lưu vào cơ sở dữ liệu
+        user.setPassword(encoder.encode(user.getPassword())); // mã hóa mật khẩu trước khi lưu vào cơ sở dữ liệu
         HashSet<Role> roles = new HashSet<>();
         roleRepository.findById(PredefinedRole.USER_ROLE).ifPresent(role -> roles.add(role));
         user.setRoles(roles);
@@ -81,7 +81,7 @@ public class UserService {
     public UserResponse getMyInfo() {
         var context = SecurityContextHolder.getContext(); // lấy thông tin người dùng từ SecurityContext
         String name = context.getAuthentication().getName();
-        User user = userRepository.findByUserName(name).orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
+        User user = userRepository.findByUsername(name).orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
         return userMapper.toUserResponse(user); // sử dụng mapper để chuyển đổi sang UserResponse
     }
 
@@ -89,7 +89,7 @@ public class UserService {
         User user = userRepository.findById(userId).orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
         userMapper.updateUser(user, request);
 
-        user.setPassWord(encoder.encode(request.getPassWord()));
+        user.setPassword(encoder.encode(request.getPassword()));
 
         var roles = roleRepository.findAllById(request.getRoles());
         user.setRoles(new HashSet<>(roles));
