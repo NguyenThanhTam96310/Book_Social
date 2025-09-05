@@ -1,6 +1,8 @@
-package com.book_micro.profile_service.dto.request;
+package com.book_micro.identity_service.entity;
 
-import java.time.LocalDate;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -9,18 +11,16 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 
+@Entity
+@Table(name = "permissions")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class UserProfileCreationRequest {
+public class Permission {
+    @Id
+    String name;
 
-    String userId;
-    String username;
-    String email;
-    String firstName;
-    String lastName;
-    LocalDate dob;
-    String city;
+    String description;
 }

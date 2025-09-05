@@ -1,6 +1,6 @@
-package com.book_micro.profile_service.dto.request;
+package com.book_micro.identity_service.dto.response;
 
-import java.time.LocalDate;
+import com.fasterxml.jackson.annotation.JsonInclude;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -13,14 +13,12 @@ import lombok.experimental.FieldDefaults;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@JsonInclude(JsonInclude.Include.NON_NULL)
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class UserProfileCreationRequest {
+public class ApiResponse<T> {
+    @Builder.Default
+    int code = 200;
 
-    String userId;
-    String username;
-    String email;
-    String firstName;
-    String lastName;
-    LocalDate dob;
-    String city;
+    String message;
+    T result;
 }

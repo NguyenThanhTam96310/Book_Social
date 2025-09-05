@@ -1,6 +1,4 @@
-package com.book_micro.profile_service.dto.request;
-
-import java.time.LocalDate;
+package com.book_micro.notification_service.dto.request;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -14,13 +12,7 @@ import lombok.experimental.FieldDefaults;
 @AllArgsConstructor
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class UserProfileCreationRequest {
-
-    String userId;
-    String username;
+public class Sender {
+    String name;
     String email;
-    String firstName;
-    String lastName;
-    LocalDate dob;
-    String city;
 }

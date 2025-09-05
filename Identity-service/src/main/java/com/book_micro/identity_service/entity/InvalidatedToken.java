@@ -1,6 +1,10 @@
-package com.book_micro.profile_service.dto.response;
+package com.book_micro.identity_service.entity;
 
-import java.time.LocalDate;
+import java.util.Date;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -9,18 +13,16 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 
+@Entity
+@Table(name = "invalidatedTokens")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class UserProfileResponse {
-
+public class InvalidatedToken {
+    @Id
     String id;
-    String username;
-    String email;
-    String firstName;
-    String lastName;
-    LocalDate dob;
-    String city;
+
+    Date expiryTime;
 }

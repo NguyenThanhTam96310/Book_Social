@@ -1,6 +1,6 @@
-package com.book_micro.profile_service.dto.request;
+package com.book_micro.identity_service.dto.response;
 
-import java.time.LocalDate;
+import java.util.Set;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -14,13 +14,8 @@ import lombok.experimental.FieldDefaults;
 @AllArgsConstructor
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class UserProfileCreationRequest {
-
-    String userId;
-    String username;
-    String email;
-    String firstName;
-    String lastName;
-    LocalDate dob;
-    String city;
+public class RoleResponse {
+    String name;
+    String description;
+    Set<PermissionResponse> permissions;
 }
